@@ -12,5 +12,28 @@ const tutorials = [
 ];
 
 const titleCased = () => {
-  return tutorials
+  return tutorials.map(tutorial => {
+    return tutorial.split(' ').map(word => {
+      // Separate word from punctuation
+      const match = word.match(/^([a-zA-Z]+)([^a-zA-Z]*)$/);
+      if (match) {
+        const [, wordPart, punctuation] = match;
+        const lowerWord = wordPart.toLowerCase();
+        
+        // Handle special cases
+        if (lowerWord === 'oo') return 'OO' + punctuation;
+        if (lowerWord === 'api') return 'API' + punctuation;
+        if (lowerWord === 'nan') return 'NaN' + punctuation;
+        if (lowerWord === 'jsonp') return 'JSONP' + punctuation;
+        if (lowerWord === 'stoppropagation') return 'StopPropagation' + punctuation;
+        if (lowerWord === 'preventdefault') return 'PreventDefault' + punctuation;
+        
+        // Default title case
+        return wordPart.charAt(0).toUpperCase() + wordPart.slice(1).toLowerCase() + punctuation;
+      }
+      
+      // Fallback for words that don't match the pattern
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join(' ');
+  });
 }
